@@ -1,0 +1,16 @@
+<model_name>.objects.create(pass the required arguments) => to create a new entry that follows that model schema
+<model_name>.objects.create(**<name of the dict>)  => to add the dictionary to the model by creating the object for it
+<model_name>.objects.all()  => to get all objects
+<model_name>.objects.get(id=1)  => to get object with id 1
+<model_name>.objects.filter(id=1)  => to get object in form of queryset which will return empty if nothing if found(the only differenece between this and get is that it does not raise error if nothing is found)
+<variable in which that object is stored>.<parameter_name>=<value you want to add>  => for updating the object(dont forget .save())
+<model_name>.objects.filter(id=1).update(<parameter_name>=<value you want to add>)  => method 2 for updating
+.delete() => in place of update to delete that object
+
+
+vege=Recipe.objects.all().order_by('-recipe_view_count') ==> to order in descending order 
+vege[1].recipe_view_count ==> to view count number
+Recipe.objects.all().order_by('-recipe_view_count')[0:2] ==> to set the limit over which
+
+Recipe.objects.filter(recipe_view_count__gte=65)  ==> so that count which are greater than or equal to 65
+similarly lte is for vice versa ie less than or equal to
