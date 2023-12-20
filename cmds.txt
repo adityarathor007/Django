@@ -55,3 +55,7 @@ student=Student.objects.values('student_age').annotate(Count('student_age'))  ==
 
 student=Student.objects.values('student_age','department').annotate(Count('department'))  ==> will tell how many students of some x age are in a particular department
 student=Student.objects.values('department','student_age').annotate(Count('student_age'))  ==> will tell how many students in a particular branch will be of x age
+
+
+
+** {{forloop.counter}}  ==> to give serial number for loop 

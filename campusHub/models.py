@@ -17,6 +17,10 @@ class StudentID(models.Model):
     def __str__(self) -> str:
         return self.student_id
 
+
+
+
+
 class Subject(models.Model):
     subject_name=models.CharField(max_length=100)
 

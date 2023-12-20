@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from home.views import *
 from vege.views import *
+from campusHub.views import *
 
 
 from django.conf.urls.static import static
@@ -37,6 +38,7 @@ urlpatterns = [
     path('register/',register_page,name='register_page'),
     path('s',success_page,name="s-page"),
     path("admin/", admin.site.urls),
+    path('students/',get_students,name="get_students")
 ]
 
 
