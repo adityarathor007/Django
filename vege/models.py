@@ -10,3 +10,4 @@ class Recipe(models.Model):
     recipe_desc=models.TextField()
     recipe_image=models.ImageField(upload_to="recipe")
     recipe_view_count=models.IntegerField(default=1)
+

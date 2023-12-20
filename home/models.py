@@ -18,7 +18,7 @@ class Car(models.Model):
     speed=models.IntegerField(default=50)
 
     def __str__(self):
-        return self.car_name
+        return self.car_name   
 
 
 # on doing migrate it saves a state of model

@@ -14,3 +14,44 @@ Recipe.objects.all().order_by('-recipe_view_count')[0:2] ==> to set the limit ov
 
 Recipe.objects.filter(recipe_view_count__gte=65)  ==> so that count which are greater than or equal to 65
 similarly lte is for vice versa ie less than or equal to
+
+
+** {} ==> is just for illustration that at that place if other keywords are substituted
+Student.objects.filter(student_email__{endswith}=".org")  => to get all students with email_id as ending with .org
+{startswith} works vice versa
+{icontains} ==>  will serach those which have that part contained somewhere in that field
+Student.objects.filter(department__department='Computer Science')  ==>  to get all students with this branch
+now if I add after that __in and then I can search for other braches together by passing a list of branches for which you want the students data
+Student.objects.filter(department__department__in=d) ==> where d is the variable containing the list
+
+** instead of filter if I use exclude then I remove those things in the full query set that contains that exclude part
+
+
+**Student.objects.filter(student_age=21) ==> will tell how many student of that age
+Student.objects.filter(department__department='Computer Science')  ==> will tell which student object of that dept, here 2 times as department is itself a object 
+
+
+
+
+**queryset.count() ==> on a query give the number of enteries in it
+queryset.exists ==> will tell if anything exists or not
+
+qs=Student.objects.filter(student_age=21)
+qs.values() ==> will give all data(objects) of that query and if add index then of that particular object of the class
+qs.values[0] ==> will give the object at index 0
+
+**qs=Student.objects.values_list(pass the fields/coloumn names for which you need the data eg: 'id','student_name') 
+Student.objects.distinct(now you can pass the coloumn name(s) for which you need objects which are distinct) ==> for that field which is having distict values in it
+
+
+
+
+.aggregate ==> for handling a particular coloumn operation 
+.annotate ==> to handle multiple coloumns 
+
+
+Student.objects.aggregate(Avg('student_age'))  ==> for finding average of student_age coloumn
+student=Student.objects.values('student_age').annotate(Count('student_age'))  ==> will tell how many student with what age are present
+
+student=Student.objects.values('student_age','department').annotate(Count('department'))  ==> will tell how many students of some x age are in a particular department
+student=Student.objects.values('department','student_age').annotate(Count('student_age'))  ==> will tell how many students in a particular branch will be of x age
