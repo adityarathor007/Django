@@ -38,7 +38,8 @@ urlpatterns = [
     path('register/',register_page,name='register_page'),
     path('s',success_page,name="s-page"),
     path("admin/", admin.site.urls),
-    path('students/',get_students,name="get_students")
+    path('students/',get_students,name="get_students"),
+    path('see-marks/<student_id>/',see_marks,name='see_marks')  #name is used to remove the dependicy of the path  as this name can be directly used in links even though the path changes it will still redirect
 ]
 
 

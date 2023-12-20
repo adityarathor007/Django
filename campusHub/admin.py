@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from django.db.models import Sum
 # Register your models here.
 from .models import *
 
@@ -13,3 +13,14 @@ class SubjectMarkAdmin(admin.ModelAdmin):
 
 admin.site.register(SubjectMarks,SubjectMarkAdmin)
 
+class ReportCardAdmin(admin.ModelAdmin):
+    list_display=['student','student_rank','total_marks','date_of_report_card_generation']
+    ordering=['-student_rank']
+    def total_marks(self,obj):
+        subject_marks=SubjectMarks.objects.filter(student=obj.student)
+        marks = subject_marks.aggregate(Sum('marks'))
+        # print(marks['marks__sum'])
+        return marks['marks__sum']
+    
+    
+admin.site.register(ReportCard,ReportCardAdmin)

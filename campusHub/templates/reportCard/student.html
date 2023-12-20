@@ -28,7 +28,11 @@
         {%for query in queryset%}
         <tr>
           <th scope="row">{{forloop.counter}}</th>
-          <td>{{query.student_id}}</td>
+          <td>
+              <a href="{%url 'see_marks' query.student_id%}">
+          {{query.student_id}}
+        </a>
+        </td>
           <td>{{query.department.department}}</td>
           <td>{{query.student_name}}</td>
           <td>{{query.student_email}}</td>
