@@ -32,7 +32,7 @@ urlpatterns = [
     path('about/',about),
     path('contact/',contact),
     path('delete-recipe/<id>/',delete_recipes,name='delete_recipe'),
-    path('update-recipe/<id>/',update_recipes,name='update_recipe'),
+    path('update-recipe/<slug>/',update_recipes,name='update_recipe'),
     path('login/',login_page,name='login_page'),
     path('logout/',logout_page,name='logout_page'),
     path('register/',register_page,name='register_page'),

@@ -54,8 +54,8 @@ def delete_recipes(request,id):
 
     return redirect('/recipes/')
 
-def update_recipes(request,id):
-    querySet=Recipe.objects.get(id=id)
+def update_recipes(request,slug):
+    querySet=Recipe.objects.get(slug=slug)
 
     if request.method=="POST":
         data=request.POST
