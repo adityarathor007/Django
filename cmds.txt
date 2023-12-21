@@ -59,3 +59,7 @@ student=Student.objects.values('department','student_age').annotate(Count('stude
 
 
 ** {{forloop.counter}}  ==> to give serial number for loop 
+
+
+** slugs ==> our userfriendly links that point out something related to what we does
+

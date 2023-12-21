@@ -4,6 +4,11 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+
+User=get_user_model()
+
+
 # for allowing user to view recipe page only when it is logged in 
 
 from .models import *
