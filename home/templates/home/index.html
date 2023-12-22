@@ -1,8 +1,11 @@
 {%extends "base.html"%}
 {%block start%}
+    <div>
+      <h1>Hey this will be used for sending email</h1>
+      <a href="{% url 'send_email'%}" class="btn btn-success">send email</a>
+    </div>
     
-    <h1>Hey this is a django server</h1>
-    <table  class="container">
+    <table  class="container mt-5">
         <tr>
           <th>S.No</th>
           <th>Name</th>

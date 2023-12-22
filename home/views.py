@@ -1,9 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.conf import settings
 
 from django.http import HttpResponse
+from campusHub.seed import seed_db
+from .utils import send_email_to_client,send_email_with_attachment
 # Create your views here.
 
+def send_email(request):
+    # send_email_to_client()
+    subject="this email is from django server with attachment"
+    message='hey pfa'
+    recipient_list=["adityarathor120@gmail.com"]
+    file_path=f"{settings.BASE_DIR}/main.xlsx"
+    send_email_with_attachment(subject,message,recipient_list,file_path)
+    return redirect('/')
+
+
+
 def home(request):
+    # seed_db(100)
     # return HttpResponse("<h1>Hey I am a Django Server</h1>")
 
     # for dynamic data ie passing the data from here to index.html then we make use of context

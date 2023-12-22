@@ -63,3 +63,4 @@ student=Student.objects.values('department','student_age').annotate(Count('stude
 
 ** slugs ==> our userfriendly links that point out something related to what we does
 
+<model_name>.objects ==> here the objects is a object manager which has filter add get etc methods and that points to your database 

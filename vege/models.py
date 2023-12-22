@@ -5,6 +5,11 @@ from .utils import generate_slug
 User=get_user_model()
 
 # Create your models here.
+# making use of model Manager
+
+
+
+
 
 class Recipe(models.Model):
     #  a ForeignKey is a fundamental concept used to create relationships between tables. It's a field (or collection of fields) in a database table that essentially points to the primary key of another table
@@ -14,6 +19,10 @@ class Recipe(models.Model):
     recipe_desc=models.TextField()
     recipe_image=models.ImageField(upload_to="recipe")
     recipe_view_count=models.IntegerField(default=1)
+    is_deleted=models.BooleanField(default=False)
+
+    
+
 
 
     def save(self,*args,**kwargs):
