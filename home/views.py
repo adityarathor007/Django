@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.conf import settings
+import random
 
 from django.http import HttpResponse
 from campusHub.seed import seed_db
@@ -16,10 +17,11 @@ def send_email(request):
     return redirect('/')
 
 
-
+from home.models import Car
 def home(request):
     # seed_db(100)
     # return HttpResponse("<h1>Hey I am a Django Server</h1>")
+    Car.objects.create(car_name=f"Ferrari-{random.randint(0,100)}")
 
     # for dynamic data ie passing the data from here to index.html then we make use of context
 
