@@ -24,7 +24,10 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('login/',login_page,name="login"),
     path('register/',register_page,name="register"),
+    path('add-cart/<pizza_uid>',add_cart,name='add_cart'),
+    path('cart/',cart,name='cart'),
     path("",home,name='home'),
+    path('remove_cart_items/<cart_item_uid>/', remove_cart_items,name='remove_cart_items'),   
     path("admin/", admin.site.urls),
 ]
 

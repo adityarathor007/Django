@@ -13,13 +13,13 @@ def home(request):
 def login_page(request):
     if request.method == 'POST':
         try:
-            username=request.POST.get('username')
+            username=request.POST.get('user_name')
             password=request.POST.get('password')
 
             user_obj=User.objects.filter(username=username)
-            if user_obj.exists():
-                messages.error(request,'Username is taken.')
-                return redirect('/register/')
+            if not user_obj.exists():
+                messages.error(request,'User not found')
+                return redirect('/login/')
             else:
                 user_obj=authenticate(username=username,password=password)
                 if user_obj:
@@ -39,7 +39,7 @@ def login_page(request):
 def register_page(request):
     if request.method == 'POST':
         try:
-            username=request.POST.get('username')
+            username=request.POST.get('user_name')
             password=request.POST.get('password')
 
             user_obj=User.objects.filter(username=username)
@@ -53,12 +53,36 @@ def register_page(request):
                 messages.success(request,'Account created.')
                 return redirect('/login/')
         except Exception as e:
+            print(e)
             messages.error(request,'Something went wrong.')
 
             return redirect('/register/')
 
-           
-    return render(request,'register.html')
+    return render(request,'register.html') 
+
 
 def add_cart(request,pizza_uid):
+    user = request.user
+    pizza_obj=Pizza.objects.get(uid=pizza_uid)
+    cart,_=Cart.objects.get_or_create(user=user,is_paid=False)
+    cart_items=CartItems.objects.create(
+        cart=cart,
+        pizza=pizza_obj
+    )
     return redirect("/")
+
+
+
+def cart(request):
+    cart=Cart.objects.get(is_paid=False,user=request.user)
+    context={'carts': cart}
+    return render(request,'cart.html',context)
+
+def remove_cart_items(request,cart_item_uid):
+    try:
+        CartItems.objects.get(uid=cart_item_uid).delete()
+
+        return redirect('/cart/')
+    except Exception as e:
+        print(e)
+

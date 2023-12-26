@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from django.db.models import Sum
 
 # DRY ==> donot repeat yourself
 
@@ -30,10 +31,12 @@ class Pizza(BaseModel):
     price=models.IntegerField(default=100)
     images=models.ImageField(upload_to='pizza')
 
-class Cart(BaseModel):
+class Cart(BaseModel):  #is for making a seperate car for every user
     user=models.ForeignKey(User,null=True,blank=True,on_delete=models.SET_NULL,related_name='carts')
     is_paid=models.BooleanField(default=False)
+    def get_cart_total(self):
+        return CartItems.objects.filter(cart=self).aggregate(Sum('pizza__price'))['pizza__price__sum']
 
-class CartItems(BaseModel):
+class CartItems(BaseModel): 
     cart=models.ForeignKey(Cart,on_delete=models.CASCADE,related_name="cart_items")  #to say whose cart it is
     pizza=models.ForeignKey(Pizza, on_delete=models.CASCADE)
