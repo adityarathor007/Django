@@ -29,6 +29,7 @@ urlpatterns = [
     path("",home,name='home'),
     path('remove_cart_items/<cart_item_uid>/', remove_cart_items,name='remove_cart_items'),   
     path("admin/", admin.site.urls),
+    path("logout/",logout_page,name="logout")
 ]
 
 

@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.decorators import login_required
 from .models import *
 
 # Create your views here.
+
+@login_required(login_url="/login/")   # #login is where we want to send the user when it tries to access that page that requires authentication
 def home(request):
     pizzas = Pizza.objects.all()
     context={'pizzas' :pizzas}
@@ -17,13 +20,13 @@ def login_page(request):
             password=request.POST.get('password')
 
             user_obj=User.objects.filter(username=username)
-            if not user_obj.exists():
-                messages.error(request,'User not found')
-                return redirect('/login/')
+            if user_obj.exists():
+                messages.error(request,'Username is taken.')
+                return redirect('/register/')
             else:
                 user_obj=authenticate(username=username,password=password)
                 if user_obj:
-                    login(request,user_obj)
+                    login(request,user_obj)  #to maintain session
                     return redirect('/')
                 
                 messages.error(request,'Wrong Password')
@@ -59,7 +62,6 @@ def register_page(request):
             return redirect('/register/')
 
     return render(request,'register.html') 
-
 
 def add_cart(request,pizza_uid):
     user = request.user
