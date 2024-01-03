@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import View
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 
@@ -14,4 +16,18 @@ from django.http import HttpResponse
 
 class Home(View):
     def get(self,request,*args,**kwargs): 
+        if request.user.is_authenticated:
+            return redirect('netflixapp:Profiles')
         return render(request,'index.html')
+    
+
+
+method_decorator(login_required,name='dispatch')
+class ProfileViews(View):
+    def get(self,request,*args,**kwargs):
+        profiles=request.user.profile.all()  #to get all profiles asssociated with a particular user
+
+        context={
+            'profiles':profiles
+        }
+        return render(request,'profilelist.html',context)
