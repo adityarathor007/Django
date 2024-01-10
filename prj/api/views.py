@@ -20,6 +20,17 @@ class RegisterView(CreateAPIView):
 
 # Apply permission globally for the function-based view
     
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])  # Apply permission globally for the function-based view
+def dashboard(request):
+    if request.method == 'GET':
+        context = f"Hey {request.user} you're seeing a GET response"
+        return Response({'response': context}, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        text = request.data.get('text')  # Use request.data instead of request.POST for JSON payloads
+        response = f"Hey {request.user} your text is {text}"
+        return Response({'response': response}, status=status.HTTP_200_OK)
+    return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

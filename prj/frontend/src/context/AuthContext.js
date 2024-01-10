@@ -2,7 +2,7 @@
 
 
 import {createContext, useState, useEffect} from 'react';
-import jwt_decode from "jwt_decode";
+import {jwtDecode} from "jwt-decode";
 import {useHistory} from 'react-router-dom';
 
 const AuthContext=createContext()  //a stock to keep track of things happening in our application
@@ -14,19 +14,19 @@ export default AuthContext
 
 
 export const AuthProvider=({children}) => {
-    const [authTokens,setAuthToken]=useState(()=>{
+    const [authTokens,setAuthToken]=useState(()=>
     // for setting the refresh and access data in the local storage
         localStorage.getItem('authTokens')
          ? JSON.parse(localStorage.getItems('authTokens'))
          : null
-    })
+    )
 
-    const[user,setUser]=useState(()=>{
+    const[user,setUser]=useState(()=>
         //this is for setting user
         localStorage.getItem('authTokens')
-        ? jwt_decode(localStorage.getItem('authTokens'))  //for decode the information stored in the token
+        ? jwtDecode(localStorage.getItem('authTokens'))  //for decode the information stored in the token
         :null
-    })
+    )
 
     const [loading,setLoading]  = useState(true)
 
@@ -51,7 +51,7 @@ export const AuthProvider=({children}) => {
         if(response.status===200){
             console.log("Logged In");
             setAuthToken(data)  // remember whenver our data goes into setAuthToken then it gets stored in the local storage
-            setUser(jwt_decode(data.access))  //decoding the access token and setting the Profile paratmeters in the local storage
+            setUser(jwtDecode(data.access))  //decoding the access token and setting the Profile paratmeters in the local storage
             localStorage.setItem('authTokens',JSON.stringify(data))
             history.push("/")  // to push to the home page
         }
@@ -105,17 +105,17 @@ export const AuthProvider=({children}) => {
     // whenever authToken refreshes we run the below one
     useEffect(() =>{
         if(authTokens){
-            setUser(jwt_decode(authTokens.access))
+            setUser(jwtDecode(authTokens.access))
         }
 
-        setLoading(False)
+        setLoading(false)
 
     },[authTokens,loading])
 
 
     return (
-        <AuthContext.Provider value={ContextData}>
-            {loading?null:childer}
+        <AuthContext.Provider value={contextData}>
+            {loading?null:children}
         </AuthContext.Provider>
    )
 
