@@ -124,6 +124,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/images/'  #for showing the image on the url whatever we upload
+
+STATICFILES_DIRS=[
+    BASE_DIR / 'static'
+]
+
+MEDIA_ROOT='static/images' #for user whatever it uploads
+
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
