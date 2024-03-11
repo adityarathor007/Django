@@ -1,12 +1,40 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {Row,Col} from 'react-bootstrap'
 import Product from '../components/Product'
-import products from '../products'
+// import products from '../products'// static but now we will fetch from the backend
+
+// import axios from 'axios'//using redux now
+
+import {useDispatch,useSelector} from 'react-redux'
+import {listProducts} from '../actions/productActions'
+
 
 function HomeScreen() {
+
+  const dispatch = useDispatch()
+  const productList=useSelector(state => state.productList)
+
+  // destructuring it
+  const {error,loading,products} = productList
+
+  // const [products,setProducts] = useState([])
+
+  useEffect(() =>{
+    // console.log('Use Effect triggered')
+      dispatch(listProducts())
+    
+
+  },[dispatch])
+
+
+ 
+
   return (
     <div>
       <h1>Latest Products</h1>
+      {loading ? <h2>Loading...</h2>
+      :error? <h3>{error}</h3>
+    :
       <Row>
         {products.map(product=>(
             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -14,6 +42,7 @@ function HomeScreen() {
             </Col>
         ))}
       </Row>
+}
     </div>
   )
 }
