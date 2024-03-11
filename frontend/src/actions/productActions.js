@@ -9,7 +9,7 @@ export const listProducts = () => async (dispatch) => {
     try {
         dispatch({type:PRODUCT_LIST_REQUEST})
 
-        const {data}= await axios.get('api/products')  //making request to the backend
+        const {data}= await axios.get('api/prdoducts')  //making request to the backend
         
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
