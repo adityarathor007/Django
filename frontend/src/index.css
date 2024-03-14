@@ -3,10 +3,26 @@ main{
 }
 
 
+h1{
+    font-size:1.8rem;
+    padding:0.5rem,0;
+
+}
+h2 {
+
+    padding: 0.5rem, 0;
+
+}
+
+
 h3{
     padding:1rem 0;
 }
 
 .rating span{
     margin:0.1rem;
+}
+
+.full-width-btn {
+    width: 100%;
 }
