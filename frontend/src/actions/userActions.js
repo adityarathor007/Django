@@ -29,11 +29,11 @@ export const login=(email,password) => async (dispatch) => {
         dispatch({
             type:USER_LOGIN_SUCCESS,
             payload:data
-        })
+        })  
         
         localStorage.setItem('userInfo',JSON.stringify(data))
     }
-    catch{
+    catch(error){
         dispatch({
             type: USER_LOGIN_FAIL,
             payload:error.response && error.response.data.detail 

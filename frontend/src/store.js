@@ -18,7 +18,7 @@ const cartItemsfrom_locStorage=localStorage.getItem('cartItems')?
 
 
 const userInfofrom_locStorage=localStorage.getItem('userInfo')?
-    JSON.parse(localStorage.getItem('userInfo')):null
+    JSON.parse(localStorage.getItem('userInfo')):null //this is done to ensure that whenver we reload the it gets info from the local storage
 
 
 const middleware = [thunk]
