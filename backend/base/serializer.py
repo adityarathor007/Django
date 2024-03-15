@@ -19,9 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
     def get__id(self,obj):
         return obj.id
     def get_name(self,obj):
-        name=obj.first_name
+        name=obj.first_name  #using first name as name
         if name=='':
-            name=obj.email
+            name=obj.email  #if name is empty then keep email in that variable
         return name
 
 class UserSerializerWithToken(UserSerializer):
