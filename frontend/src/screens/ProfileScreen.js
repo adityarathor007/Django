@@ -4,51 +4,70 @@ import {Form,Button,Row,Col} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {register} from '../actions/userActions'
-import FormContainer from '../components/FormContainer'
+import {getUserDetails} from '../actions/userActions'
 
 
 
-function RegisterScreen() {
+function ProfileScreen() {
+    
     const [name,setName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [confirmpassword,setconfirmPassword] = useState('')
     const [message,setMessage] = useState('')
 
+
     const location=useLocation()
     const navigate=useNavigate()
     const dispatch=useDispatch()
 
+    
+    
     const submitHandler = (e) =>{
         e.preventDefault()
-        if (password !== confirmpassword){
+        if (password != confirmpassword){
             setMessage('password do not match')
         }
         else{
-        dispatch(register(name,email,password))
+        console.log('Updating....')
         }
         
     }
 
-    const redirect=location.search?location.search.split('=')[1] : '/'
 
-    const userRegister = useSelector(state=>state.userRegister)
+    const userDetails = useSelector(state=>state.userDetails)
+    const {error,loading,user} = userDetails
 
-    const {error,loading,userInfo} = userRegister
+    const userLogin = useSelector(state=>state.userLogin)
+    const {userInfo} = userLogin
+
+
 
     useEffect(() => {
-        if(userInfo){
-            navigate(redirect)
-
+        if(!userInfo){
+            navigate('/login')  //if the user is not logged in and tries to access this pg then redirect to login page
         }
-    },[userInfo,redirect,navigate])
+        else{
+            if(!user || !user.name){  //to check whether the user information has been loaded or not
+                console.log('Fetching user details...');
+                dispatch(getUserDetails('profile'))  //sending profile as parameter to complete the url for making get request(api/users/profile)
+            }
+            else{ 
+                console.log('User details already loaded.');
+                setName(user.name)
+                setEmail(user.email)
+            }
+        }
+    },[dispatch,userInfo,user,navigate])
+
+
 
 
   return (
-    <FormContainer>
-        <h1>SignIn</h1>
-        {message && <Message variant='danger'>{message}</Message>}  {/*when password dont match then only this message comes */}
+    <Row>
+      <Col md={3}>
+        <h2>User Profile</h2>
+            {message && <Message variant='danger'>{message}</Message>}  {/*when password dont match then only this message comes */}
         
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader></Loader>}
@@ -82,7 +101,7 @@ function RegisterScreen() {
             <Form.Group controlId='password' className='mb-3'>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                required
+           
                 type='password'
                 placeholder='Enter Password'
                 value={password}
@@ -93,7 +112,7 @@ function RegisterScreen() {
             <Form.Group controlId='password' className='mb-3'>
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control
-                required
+           
                 type='password'
                 placeholder='Confirm Password'
                 value={confirmpassword}
@@ -104,19 +123,17 @@ function RegisterScreen() {
 
 
             <Button type='submit' variant='primary'>
-                Register
+                Update
             </Button>
 
         </Form>
 
-        <Row className='py-3'>
-            <Col>
-            Have an account ? <Link to={redirect? `/login?redirect=${redirect}` : '/login' }>SignIn</Link>
-            </Col>
-        </Row>
-    </FormContainer>
-    
+      </Col>
+      <Col md={9}>
+        <h2>My Orders</h2>
+      </Col>
+    </Row>
   )
 }
 
-export default RegisterScreen
+export default ProfileScreen
