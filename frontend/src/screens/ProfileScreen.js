@@ -4,8 +4,8 @@ import {Form,Button,Row,Col} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {getUserDetails} from '../actions/userActions'
-
+import {getUserDetails,updateUserProfile} from '../actions/userActions'
+import {USER_UPDATE_PROFILE_RESET} from '../constants/userConstants'
 
 
 function ProfileScreen() {
@@ -29,7 +29,14 @@ function ProfileScreen() {
             setMessage('password do not match')
         }
         else{
-        console.log('Updating....')
+        // console.log('Updating....')
+        dispatch(updateUserProfile({
+            'id':user._id,
+            'name':name,
+            'email':email,
+            'password':password
+        }))
+            setMessage('')
         }
         
     }
@@ -41,6 +48,9 @@ function ProfileScreen() {
     const userLogin = useSelector(state=>state.userLogin)
     const {userInfo} = userLogin
 
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile)
+    const {success} = userUpdateProfile
+
 
 
     useEffect(() => {
@@ -48,7 +58,8 @@ function ProfileScreen() {
             navigate('/login')  //if the user is not logged in and tries to access this pg then redirect to login page
         }
         else{
-            if(!user || !user.name){  //to check whether the user information has been loaded or not
+            if(!user || !user.name || success){  //to check whether the user information has been loaded or not
+                dispatch({ type:USER_UPDATE_PROFILE_RESET})
                 console.log('Fetching user details...');
                 dispatch(getUserDetails('profile'))  //sending profile as parameter to complete the url for making get request(api/users/profile)
             }
