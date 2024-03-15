@@ -3,13 +3,14 @@ import {thunk} from 'redux-thunk'
 import {productListReducers,productDetailsReducers} from './reducers/productReducers'
 import {composeWithDevTools} from '@redux-devtools/extension'
 import {CartReducer} from './reducers/cartReducers'
-import {UserLoginReducer} from './reducers/userReducers'
+import {UserLoginReducer,userRegisterReducer} from './reducers/userReducers'
 
 const reducer=combineReducers({
     productList:productListReducers,  //this reducer will update the products state
     productDetails:productDetailsReducers,
     cart:CartReducer,
     userLogin:UserLoginReducer,
+    userRegister:userRegisterReducer,
 
 })
 
