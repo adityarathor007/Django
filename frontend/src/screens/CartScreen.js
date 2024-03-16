@@ -15,7 +15,7 @@ function CartScreen() {
   const dispatch =useDispatch()
 
   const cart = useSelector(state=>state.cart)
-  const {cartItems}=cart
+  const {cartItems}=cart  
   // console.log('cartItems:',cartItems)
 
   const navigate=useNavigate()
@@ -33,7 +33,8 @@ function CartScreen() {
  
 
   const checkoutHandler=()=>{
-    navigate('/login?redirect=shipping')
+    // navigate('/login?redirect=shipping')
+    navigate('/shipping')
   }
 
 

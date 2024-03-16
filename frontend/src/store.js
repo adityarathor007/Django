@@ -25,12 +25,20 @@ const userInfofrom_locStorage=localStorage.getItem('userInfo')?
     JSON.parse(localStorage.getItem('userInfo')):null //this is done to ensure that whenver we reload the it gets info from the local storage
 
 
+const shippingAddressFromlocStorage=localStorage.getItem('shippingAddress')?
+    JSON.parse(localStorage.getItem('shippingAddress')):{}   //loading the previous stored address
+
+
 const middleware = [thunk]
 
 const initialState = {
-    cart:{cartItem:cartItemsfrom_locStorage},
-    userLogin:{userInfo:userInfofrom_locStorage}
+    cart:{
+        cartItems:cartItemsfrom_locStorage,
+        shippingAddress:shippingAddressFromlocStorage
+    },  //as shipping address is related to the items in the cart
+    userLogin:{userInfo:userInfofrom_locStorage},
 }
+    
 
 const store= createStore(reducer,initialState,composeWithDevTools(applyMiddleware(...middleware)))
 
