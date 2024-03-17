@@ -26,3 +26,9 @@ h3{
 .full-width-btn {
     width: 100%;
 }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    /* Aligns to the right end */
+}
