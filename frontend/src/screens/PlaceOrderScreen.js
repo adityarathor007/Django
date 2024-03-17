@@ -159,7 +159,7 @@ return (
                         <Button
                         type='button'
                         className='btn-block btn float-right'
-                        disabled={cart.cartItems===0}
+                        disabled={cart.cartItems.length===0}
                         onClick={placeOrder}
                          >
                             Place Order
