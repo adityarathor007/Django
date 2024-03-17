@@ -42,9 +42,9 @@ class Order(models.Model):
     shippingPrice=models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     totalPrice=models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
     isPaid=models.BooleanField(default=False)
-    paidAt=models.DateField(auto_now_add=False,null=True,blank=True)
+    paidAt=models.DateTimeField(auto_now_add=False,null=True,blank=True)
     isDelivered=models.BooleanField(default=False)
-    deliveredAt=models.DateField(auto_now_add=False,null=True,blank=True)
+    deliveredAt=models.DateTimeField(auto_now_add=False,null=True,blank=True)
     createdAt=models.DateField(auto_now_add=True)
     _id=models.AutoField(primary_key=True,editable=False)
 
@@ -58,7 +58,7 @@ class OrderItem(models.Model):
     name=models.CharField(max_length=200,null=True,blank=True)
     qty=models.IntegerField(null=True, blank=True,default=0)
     price=models.DecimalField(max_digits=7,decimal_places=2,null=True,blank=True)
-    image=models.ImageField(null=True,blank=True)
+    image=models.TextField(null=True,blank=True)
     _id=models.AutoField(primary_key=True,editable=False)
 
     def __str__(self):
