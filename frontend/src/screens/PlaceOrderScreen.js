@@ -5,18 +5,55 @@ import {useDispatch,useSelector} from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import {savePaymentMethod} from '../actions/cartActions'
+import {createOrder} from '../actions/orderActions'
+import {ORDER_CREATE_RESET} from '../constants/orderConstants'
 
 
 
 function PlaceOrderScreen() {
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
   const cart=useSelector(state=>state.cart)
+  const orderCreate=useSelector(state=>state.orderCreate)
+  const {order,error,success}=orderCreate
+
+
+
+  
   const placeOrder=()=>{
-    console.log('place order')
+    // console.log('place order')
+    dispatch(createOrder({
+        orderItems:cart.cartItems,
+        shippingAddress:cart.shippingAddress,
+        paymentMethod:cart.paymentMethod,
+        itemsPrice:cart.itemsPrice,
+        shippingPrice:cart.shippingPrice,
+        taxPrice:cart.taxPrice,
+        totalPrice:cart.totalPrice
+        
+
+        
+    }))
   }
+
+
+  if(!cart.paymentMethod){
+    navigate('/payment')
+  }
+
+  useEffect(()=>{
+    if(success){
+        navigate(`/order/${order._id}`)
+        dispatch({type:ORDER_CREATE_RESET})
+    }
+  },[success,navigate])
+
+
   cart.itemsPrice=cart.cartItems.reduce((acc,item)=>acc+item.price*item.qty,0).toFixed(2)
   cart.shippingPrice=(cart.itemsPrice>100? 0: 10).toFixed(2)
-  cart.TaxPrice=((0.082)*cart.itemsPrice).toFixed(2)
-  cart.totalPrice=(Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.TaxPrice)).toFixed(2)
+  cart.taxPrice=((0.082)*cart.itemsPrice).toFixed(2)
+  cart.totalPrice=(Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.taxPrice)).toFixed(2)
+  
 return (
     <div>
       <CheckoutSteps step1 step2 step3 step4 />
@@ -98,7 +135,7 @@ return (
                     <ListGroup.Item>
                         <Row>
                             <Col>Tax:</Col>
-                            <Col>${cart.TaxPrice}</Col>
+                            <Col>${cart.taxPrice}</Col>
                         </Row>
                             
                     </ListGroup.Item>
@@ -109,6 +146,14 @@ return (
                         </Row>
                             
                     </ListGroup.Item>
+
+                    <ListGroup.Item>
+                       {error && <Message variant='danger'>{error}</Message>}
+                            
+                    </ListGroup.Item>
+
+
+
                     <ListGroup.Item>
                         <div className='button-container'>
                         <Button
