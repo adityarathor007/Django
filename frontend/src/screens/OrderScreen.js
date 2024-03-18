@@ -5,6 +5,8 @@ import {useDispatch,useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {getOrderDetails,payOrder} from '../actions/orderActions'
+import {PayPalButton} from 'react-paypal-button-v2'
+import {ORDER_PAY_RESET} from '../constants/orderConstants'
 
 
 
@@ -14,12 +16,14 @@ function OrderScreen() {
   const dispatch=useDispatch()
   const orderDetails=useSelector(state=>state.orderDetails)
   const {order,error,loading}=orderDetails
-  const {sdkReady,setSdkReady}=useState(false)
+  const[sdkReady,setSdkReady]=useState(false)
 
   const orderPay=useSelector(state=>state.orderPay)
   const {loading:loadingPay,success:successPay}=orderPay
 
 //   AeHzb-gxvW72kZb5GY_o6vzRBS45WJ0oSl4Krr6oSszxxkGvtklnDlBmnahPw6r87vM_3xHFO9Uip06_
+
+
 
 const addPayPalScript=()=>{
     const script=document.createElement('script')
@@ -34,6 +38,7 @@ const addPayPalScript=()=>{
 
   useEffect(()=>{
     if(!order|| successPay || order._id!==Number(id)){
+    dispatch({type:ORDER_PAY_RESET})
     dispatch(getOrderDetails(id))
     }
     else if(!order.isPaid){
@@ -51,7 +56,7 @@ const addPayPalScript=()=>{
       order.itemsPrice=order.orderItems.reduce((acc,item)=>acc+item.price*item.qty,0).toFixed(2)
   }
 
-  const successPaymentHandler = () =>{
+  const successPaymentHandler = (paymentResult) =>{
     dispatch(payOrder(id,paymentResult))
   }
 
@@ -170,6 +175,21 @@ return loading? (
                         </Row>
                             
                     </ListGroup.Item>
+
+                    {!order.isPaid&&(
+                        <ListGroup.Item>
+                            {loadingPay && <Loader></Loader>}
+                            {!sdkReady?(
+                                <Loader />
+                            ):
+                            (
+                                <PayPalButton 
+                                    amount={order.totalPrice}
+                                    onSuccess={successPaymentHandler}
+                                    />
+                            )}
+                        </ListGroup.Item>
+                    )}
 
                     
                 </ListGroup>
