@@ -4,7 +4,7 @@ import {Button,Row,Col,ListGroup,Image,Card, ListGroupItem} from 'react-bootstra
 import {useDispatch,useSelector} from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import {getOrderDetails} from '../actions/orderActions'
+import {getOrderDetails,payOrder} from '../actions/orderActions'
 
 
 
@@ -14,18 +14,45 @@ function OrderScreen() {
   const dispatch=useDispatch()
   const orderDetails=useSelector(state=>state.orderDetails)
   const {order,error,loading}=orderDetails
+  const {sdkReady,setSdkReady}=useState(false)
 
+  const orderPay=useSelector(state=>state.orderPay)
+  const {loading:loadingPay,success:successPay}=orderPay
 
+//   AeHzb-gxvW72kZb5GY_o6vzRBS45WJ0oSl4Krr6oSszxxkGvtklnDlBmnahPw6r87vM_3xHFO9Uip06_
+
+const addPayPalScript=()=>{
+    const script=document.createElement('script')
+    script.type='text/javascript'
+    script.src="https://www.paypal.com/sdk/js?client-id=AeHzb-gxvW72kZb5GY_o6vzRBS45WJ0oSl4Krr6oSszxxkGvtklnDlBmnahPw6r87vM_3xHFO9Uip06_&components=buttons"
+    script.async=true
+    script.onload=()=>{
+        setSdkReady(true)
+    }
+    document.body.appendChild(script)
+}
 
   useEffect(()=>{
-    if(!order || order._id!==Number(id)){
+    if(!order|| successPay || order._id!==Number(id)){
     dispatch(getOrderDetails(id))
     }
+    else if(!order.isPaid){
+        if(!window.paypal){
+            addPayPalScript()
+        }
+        else{
+            setSdkReady(true)
+        }
+    }
     
-  },[order,id])
+  },[dispatch,order,id])
 
   if(!loading && !error){
       order.itemsPrice=order.orderItems.reduce((acc,item)=>acc+item.price*item.qty,0).toFixed(2)
+  }
+
+  const successPaymentHandler = () =>{
+    dispatch(payOrder(id,paymentResult))
   }
 
   
