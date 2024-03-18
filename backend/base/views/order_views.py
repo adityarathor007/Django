@@ -60,7 +60,19 @@ def addOrderItems(request):
         # to use the above in react we need to serialize and turn in json data
         serializer=OrderSerailizer(order,many=False)
         return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getmyOrders(request):
+    user=request.user
+    orders=user.order_set.all()
+    serailizer=OrderSerailizer(orders,many=True)
+    return Response(serailizer.data)
     
+
+
 
 
 @api_view(['GET'])

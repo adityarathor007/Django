@@ -50,7 +50,7 @@ const addPayPalScript=()=>{
         }
     }
     
-  },[dispatch,order,id])
+  },[dispatch,successPay,order,id])
 
   if(!loading && !error){
       order.itemsPrice=order.orderItems.reduce((acc,item)=>acc+item.price*item.qty,0).toFixed(2)
