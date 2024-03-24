@@ -135,6 +135,8 @@ def updateUserById(request,pk):
     user.username=data['email']
     user.email=data['email']
     user.is_staff=data['isAdmin']
+
+    user.save()
     
     serializer=UserSerializer(user,many=False) #token used as it needs to be updated as information changes
 
@@ -142,7 +144,7 @@ def updateUserById(request,pk):
 
 
 
-@api_view(['DELETE'])
+@api_view(['DELETE'])   
 @permission_classes([IsAdminUser]) 
 def deleteUser(request,pk):
     userForDeletion=User.objects.get(id=pk)

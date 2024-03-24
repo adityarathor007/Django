@@ -4,8 +4,9 @@ import {Form,Button} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {getUserDetails} from '../actions/userActions'
+import {getUserDetails,updateUser} from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
+import {USER_UPDATE_RESET,USER_DETAILS_RESET} from '../constants/userConstants'
 
 
 
@@ -23,8 +24,19 @@ function EditUserScreen() {
 
     const userDetails = useSelector(state=>state.userDetails)
     const {error,loading,user} = userDetails
+
+     const userUpdate = useSelector(state=>state.userUpdate)
+    const {error:errorUpdate,loading:loadingUpdate,success:successUpdate} = userUpdate
     
     useEffect(() => {
+        if(successUpdate){
+            dispatch({type:USER_UPDATE_RESET})
+            dispatch({type:USER_DETAILS_RESET})
+            navigate('/admin/userlist')
+        }
+        else{
+
+        
         console.log(user)
         if(!user || user._id !== Number(id)){
             dispatch(getUserDetails(id))
@@ -34,10 +46,12 @@ function EditUserScreen() {
             setEmail(user.email)
             setAdmin(user.isAdmin)
         }
-    },[user,id])
+    }
+    },[user,id,successUpdate,navigate])
 
     const submitHandler=(e) => {
         e.preventDefault()
+        dispatch(updateUser({_id:user._id,name,email,isAdmin}))
     }
 
 
@@ -74,12 +88,12 @@ function EditUserScreen() {
 
 
             <Form.Group controlId='isadmin' className='mb-3'>
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Is Admin</Form.Label>
                 <Form.Check
                 type='checkbox'
                 placeholder='Is Admin'
                 checked={isAdmin}
-                onChange={(e)=>setAdmin(e.target.check)}></Form.Check>
+                onChange={(e)=>setAdmin(e.target.checked)}></Form.Check>
             </Form.Group>
 
          
