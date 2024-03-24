@@ -8,5 +8,9 @@ urlpatterns=[
     path('profile/update/',views.updateUserProfile,name='user-profile-update'),
     path('',views.getUsers,name='users'),
     path('register/',views.registerUser,name='register'),
-    path('delete/<str:pk>/',views.deleteUser,name='user-delete')
+    path('<str:pk>/',views.getUserById,name='userinfo-for-admin'),
+    path('update/<str:pk>/',views.updateUserById,name='user-update_byadmin'),
+    
+
+    path('delete/<str:pk>/',views.deleteUser,name='user-delete'),
 ]
