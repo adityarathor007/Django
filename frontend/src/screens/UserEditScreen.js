@@ -62,6 +62,8 @@ function EditUserScreen() {
         </Link>
            <FormContainer>
         <h1>Edit User</h1>
+        {loadingUpdate && <Loader />}
+      {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         
         {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message>:(
             <Form onSubmit={submitHandler}>

@@ -13,8 +13,8 @@ export const listProducts = () => async (dispatch) => {
     try {
         dispatch({type:PRODUCT_LIST_REQUEST})
 
-        const {data}= await axios.get('api/products')  //making request to the backend
-        
+        const {data}= await axios.get(`/api/products`)  //making request to the backend
+        console.log(data)
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
             payload: data  // loading the state with data 

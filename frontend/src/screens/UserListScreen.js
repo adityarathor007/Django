@@ -25,7 +25,7 @@ export default function UserListScreen() {
         else{
             navigate('/login')
         }
-    },[dispatch,navigate,userDelete])
+    },[dispatch,navigate,userDelete,userInfo])
 
     const deleteHandler=(id) => {
         // console.log('DELETE:',id)
