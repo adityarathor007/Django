@@ -48,7 +48,7 @@ function ProfileScreen() {
     const {error,loading,user} = userDetails
 
     const userLogin = useSelector(state=>state.userLogin)
-    const {userInfo} = userLogin
+    const {userInfo} = userLogin //the person who logged in
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const {success} = userUpdateProfile
@@ -62,7 +62,7 @@ function ProfileScreen() {
             navigate('/login')  //if the user is not logged in and tries to access this pg then redirect to login page
         }
         else{
-            if(!user || !user.name || success){  //to check whether the user information has been loaded or not
+            if(!user || !user.name || success || userInfo._id !== user._id ){  //to check whether the user information has been loaded or not
                 dispatch({ type:USER_UPDATE_PROFILE_RESET})
                 console.log('Fetching user details...');
                 dispatch(getUserDetails('profile'))  //sending profile as parameter to complete the url for making get request(api/users/profile)

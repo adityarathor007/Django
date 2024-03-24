@@ -67,7 +67,7 @@ export default function UserListScreen() {
                         </td>
                         {/* to take from list page to that user profile */}
                         <td>
-                            <LinkContainer to={`/admin/user/${user._id}`}>
+                            <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                 <Button varaint='light' className='btn-sm'>
                                     <i className='fas fa-edit'></i>
                                    
