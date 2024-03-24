@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from base.models import Product
 from django.contrib.auth.models import User
 from base.serializer import ProductSerializer,UserSerializer
-from rest_framework import status
 
 
 
@@ -27,4 +26,12 @@ def getProduct(request,pk):
     serializer=ProductSerializer(product,many=False) #as we are asking for one item
     
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteProduct(request,pk):
+    product=Product.objects.get(_id=pk)
+    product.delete()    
+    return Response('Product Deleted')
 

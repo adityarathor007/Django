@@ -1,6 +1,6 @@
 import {legacy_createStore as createStore,combineReducers,applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
-import {productListReducers,productDetailsReducers} from './reducers/productReducers'
+import {productListReducers,productDetailsReducers,productDeleteReducers} from './reducers/productReducers'
 import {composeWithDevTools} from '@redux-devtools/extension'
 import {CartReducer} from './reducers/cartReducers'
 import {UserLoginReducer,
@@ -16,7 +16,10 @@ import {orderConstantsReducer,orderDetailsReducer,orderPayReducer,orderListMyRed
 const reducer=combineReducers({
     productList:productListReducers,  //this reducer will update the products state
     productDetails:productDetailsReducers,
+    productDelete:productDeleteReducers,
+    
     cart:CartReducer,
+
     userLogin:UserLoginReducer,
     userRegister:userRegisterReducer,
     userDetails:userDetailsReducer,
@@ -24,6 +27,8 @@ const reducer=combineReducers({
     userList:userListReducer,
     userDelete:userDeleteReducer,
     userUpdate:userUpdateReducer,
+
+    
     orderCreate:orderConstantsReducer,
     orderDetails:orderDetailsReducer,
     orderPay:orderPayReducer,

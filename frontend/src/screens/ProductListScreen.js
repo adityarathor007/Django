@@ -5,7 +5,7 @@ import {Table,Button,Row,Col, Container} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {listProducts} from '../actions/productActions'            
+import {deleteProduct, listProducts} from '../actions/productActions'            
 
 export default function ProductListScreen() {
     const dispatch=useDispatch()
@@ -14,22 +14,26 @@ export default function ProductListScreen() {
     const productList=useSelector(state=>state.productList)
     const {loading,error,products}=productList
 
+    const productDelte=useSelector(state=>state.productDelete)
+    const {loading:loadingDelete,error:errorDelete,success:successDelete}=productDelte
+
     const userLogin=useSelector(state=>state.userLogin)  //to check if the user is admin or not so we need details of it
     const {userInfo}=userLogin
    
     useEffect(()=>{
         if(userInfo && userInfo.isAdmin){ //to make sure that if non admin user access this link then redirected to login page if nor logged in and if logged in then reception 
             dispatch(listProducts())
-            console.log(products)
+
         }
         else{
             navigate('/login')
         }
-    },[dispatch,navigate,userInfo])
+    },[dispatch,navigate,userInfo,successDelete])
 
     const deleteHandler=(id) => {
         // console.log('DELETE:',id)
         if(window.confirm('Are you sure you want to delete the user?')){  //to add confirmation
+            dispatch(deleteProduct(id))
 
         }}
 
@@ -50,7 +54,8 @@ export default function ProductListScreen() {
         </Button>
     </Col>
 </Row>
-
+{loadingDelete && <Loader/>}
+{errorDelete && <Message variant='danger'>{error}</Message>}
 
 
       {loading 
