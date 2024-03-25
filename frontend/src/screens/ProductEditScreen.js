@@ -9,7 +9,7 @@ import FormContainer from '../components/FormContainer'
 import {USER_UPDATE_RESET,USER_DETAILS_RESET} from '../constants/userConstants'
 import { listProductDetails,updateProduct } from '../actions/productActions'
 import {PRODUCT_UPDATE_RESET} from '../constants/productConstants'
-
+import axios from 'axios'
 
 
 function ProductEditScreen() {
@@ -21,6 +21,7 @@ function ProductEditScreen() {
     const [category,setCategory]=useState('')
     const [countInStock,setCountInStock]=useState(0)
     const [description,setDescription]=useState('')
+    const [uploading,setUploading]=useState(false)
 
     const {id}=useParams()
 
@@ -82,6 +83,30 @@ function ProductEditScreen() {
         },user))
     }
 
+    const uploadFileHandler = async (e) => {
+        // console.log('File is uploading')
+        const file=e.target.files[0]
+        const formData=new FormData()
+
+        formData.append('image',file)
+        formData.append('product_id',id)
+        setUploading(true)
+        try{
+            const config={
+                header:{
+                    'Content-Type':'multipart/form-data'
+
+
+                }
+            }
+            const {data}=await axios.post('/api/products/upload/',formData,config)
+            setImage(data)
+            setUploading(false)
+        }
+        catch(error){
+            setUploading(false)
+        }
+    }
 
   return (
     <div>
@@ -125,7 +150,19 @@ function ProductEditScreen() {
                 placeholder='Enter image'
                 value={image}
                 onChange={(e)=>setImage(e.target.value)}></Form.Control>
+                
+                <Form.Control
+                type='file'
+                label='Choose File'
+                custom
+                onChange={uploadFileHandler}
+                ></Form.Control>
+                {uploading && <Loader />}
+                
             </Form.Group>
+            
+           
+
 
             <Form.Group controlId='brand' className='mb-3'>
                 <Form.Label>Brand</Form.Label>

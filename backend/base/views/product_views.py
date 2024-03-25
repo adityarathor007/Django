@@ -64,16 +64,31 @@ def createProduct(request):
 @permission_classes([IsAdminUser])
 def updateProduct(request,pk):
     data=request.data
-    user=request.user
+    product_data = data['product']
     product=Product.objects.get(_id=pk)
-    product.user=user
-    product.name=data['name']
-    product.price=data['price']
-    product.brand=data['brand']
-    product.countInStock=data['countInStock']
-    product.category=data['category']
-    product.description=data['description']
+    if 'user' in data:
+        user_data = data['user']
+        user=User.objects.get(id=user_data['id'])
+        product.user=user
+    product.name=product_data['name']
+    product.price=product_data['price']
+    product.brand=product_data['brand']
+    product.countInStock=product_data['countInStock']
+    product.category=product_data['category']
+    product.description=product_data['description']
     
     product.save()
     serializer=ProductSerializer(product,many=False) #as we are asking for one item
     return Response(serializer.data)
+
+@csrf_exempt
+@api_view(['POST'])
+def uploadImage(request):
+    data=request.data
+
+    product_id=data['product_id']
+    product=Product.objects.get(_id=product_id)
+    product.image=request.FILES.get('image')
+    product.save()
+
+    return Response('Image was uploaded')

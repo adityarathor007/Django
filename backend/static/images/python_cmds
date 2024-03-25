@@ -1,0 +1,23 @@
+shortcut in python 
+
+python3 -m venv myenv  ==> to create a virtual env with name as myenv
+source myenv/bin/activate  ==> to activate the virtual env
+
+
+
+#*to create kernel in vs code*
+pip install jupyter ==> to add to your virtual env
+jupyter notebook --generate-config  ==> to create config file for notebook
+nano ~/.jupyter/jupyter_notebook_config.py  ==>  to open nano text editor 
+
+#inside this find the below and make changes
+
+## The directory to use for notebooks and kernels.
+#over there add this 
+c.NotebookApp.notebook_dir = 'path of your directory'
+
+and save and exit 
+and then restart your ide
+
+
+
