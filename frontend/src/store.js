@@ -1,6 +1,10 @@
 import {legacy_createStore as createStore,combineReducers,applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
-import {productListReducers,productDetailsReducers,productDeleteReducers,productCreateReducers} from './reducers/productReducers'
+import {productListReducers
+        ,productDetailsReducers
+        ,productDeleteReducers
+        ,productCreateReducers
+        ,productUpdateReducers} from './reducers/productReducers'
 import {composeWithDevTools} from '@redux-devtools/extension'
 import {CartReducer} from './reducers/cartReducers'
 import {UserLoginReducer,
@@ -18,6 +22,7 @@ const reducer=combineReducers({
     productDetails:productDetailsReducers,
     productDelete:productDeleteReducers,
     productCreate:productCreateReducers,
+    productUpdate:productUpdateReducers,
     
     cart:CartReducer,
 

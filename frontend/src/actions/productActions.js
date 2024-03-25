@@ -15,6 +15,12 @@ import {
     PRODUCT_CREATE_SUCCESS,
     PRODUCT_CREATE_FAIL,
     PRODUCT_CREATE_RESET,
+
+    PRODUCT_UPDATE_REQUEST,
+    PRODUCT_UPDATE_SUCCESS,
+    PRODUCT_UPDATE_FAIL,
+    PRODUCT_UPDATE_RESET,  
+
 } from '../constants/productConstants'
 import axios from 'axios'
 
@@ -130,6 +136,7 @@ export const createProduct =() => async (dispatch,getState) => {
             }
         }
 
+      
         const {data} = await axios.post(
             `/api/products/create/`,
             {},
@@ -153,7 +160,63 @@ export const createProduct =() => async (dispatch,getState) => {
     }
 }
 
-// function getCookie(name) {
-//     const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-//     return cookieValue ? cookieValue.pop() : '';
-// }
+
+
+export const updateProduct =(product,user) => async (dispatch,getState) => {
+    console.log(user)
+    try{
+        dispatch({
+            type:PRODUCT_UPDATE_REQUEST
+
+        })
+
+        const {
+            userLogin:{userInfo},
+        } = getState()
+
+        // const csrftoken = getCookie('csrftoken');
+
+
+        const config={
+            headers:{
+                'Content-type':'application/json',
+                // 'X-CSRFToken': csrftoken,
+                Authorization: `Bearer ${userInfo.token}`,  //giving the token of the logged in user
+
+            }
+        }
+
+        const requestData = {
+            product,
+            user
+        };
+
+
+        const {data} = await axios.put(
+            `/api/products/update/${product._id}/`,
+            requestData,
+            config
+        )
+        dispatch({
+            type:PRODUCT_UPDATE_SUCCESS,
+            payload:data,
+        }) 
+        
+        dispatch({
+            type:PRODUCT_DETAILS_SUCCESS,
+            payload:data 
+        })
+
+
+
+    }
+    catch(error){
+        dispatch({
+            type: PRODUCT_UPDATE_FAIL,
+            payload:error.response && error.response.data.detail 
+            ? error.response.data.detail
+            :error.message, //passing the error 
+        })
+    }
+}
+

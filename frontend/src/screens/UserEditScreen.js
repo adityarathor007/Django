@@ -10,7 +10,7 @@ import {USER_UPDATE_RESET,USER_DETAILS_RESET} from '../constants/userConstants'
 
 
 
-function EditUserScreen() {
+function UserEditScreen() {
     const [name,setName] = useState('')
     const [email,setEmail] = useState('')
     const [isAdmin,setAdmin]=useState(false)
@@ -31,7 +31,7 @@ function EditUserScreen() {
     useEffect(() => {
         if(successUpdate){
             dispatch({type:USER_UPDATE_RESET})
-            dispatch({type:USER_DETAILS_RESET})
+            // dispatch({type:USER_DETAILS_RESET})
             navigate('/admin/userlist')
         }
         else{
@@ -121,4 +121,4 @@ function EditUserScreen() {
   )
 }
 
-export default EditUserScreen
+export default UserEditScreen

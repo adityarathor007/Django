@@ -7,7 +7,8 @@ import Message from '../components/Message'
 import {getUserDetails,updateUser} from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import {USER_UPDATE_RESET,USER_DETAILS_RESET} from '../constants/userConstants'
-import { listProductDetails } from '../actions/productActions'
+import { listProductDetails,updateProduct } from '../actions/productActions'
+import {PRODUCT_UPDATE_RESET} from '../constants/productConstants'
 
 
 
@@ -36,26 +37,49 @@ function ProductEditScreen() {
     const userDetails = useSelector(state=>state.userDetails)
     const {error:erroruser,loading:loadinguser,user} = userDetails
 
+    const productUpdate = useSelector(state=>state.productUpdate)
+    const {error:errorUpdate,loading:loadingUpdate,success:successUpdate} = productUpdate
+
     
     useEffect(() => {
-        console.log(user)
-        if(!product.name || product._id !== Number(id)){
-            dispatch(listProductDetails(id))
+        
+        if(successUpdate){
+            dispatch({type:PRODUCT_UPDATE_RESET})
+            navigate('/admin/productlist')
         }
         else{
-            setName(product.name)
-            setPrice(product.price)
-            setImage(product.image)
-            setBrand(product.brand)
-            setCategory(product.category)
-            setCountInStock(product.countInStock)
-            setDescription(product.description)
+            if(!product.name || product._id !== Number(id)){
+                dispatch(listProductDetails(id))
+        }
+            else{
+                setName(product.name)
+                setPrice(product.price)
+                setImage(product.image)
+                setBrand(product.brand)
+                setCategory(product.category)
+                setCountInStock(product.countInStock)
+                setDescription(product.description)
             
         }
+        }
+
+
+        
     },[dispatch,product,id,navigate])
 
     const submitHandler=(e) => {
         e.preventDefault()
+        dispatch(updateProduct({
+            _id:id,
+            name,
+            price,
+            image,
+            brand,
+            countInStock,
+            category,
+            description,
+
+        },user))
     }
 
 
@@ -66,6 +90,11 @@ function ProductEditScreen() {
         </Link>
            <FormContainer>
         <h1>Edit Product</h1>
+
+        {loadingUpdate && <Loader />}
+      {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+
+
         {loading && <Loader />}
       {error && <Message variant='danger'>{error}</Message>}
         
