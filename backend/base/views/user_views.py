@@ -84,6 +84,8 @@ def registerUser(request):
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     user=request.user
+    print(request)
+    print(user)
     serializer=UserSerializerWithToken(user,many=False) #token used as it needs to be updated as information changes
     
     data=request.data

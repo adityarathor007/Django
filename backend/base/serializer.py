@@ -39,7 +39,7 @@ class UserSerializerWithToken(UserSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model=Product
-        fields='__all__' #to specify what we want to serialze
+        fields='__all__'  #to specify what we want to serialze
 
 
 

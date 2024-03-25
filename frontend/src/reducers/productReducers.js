@@ -10,6 +10,11 @@ import {
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_DELETE_FAIL,
+
+    PRODUCT_CREATE_REQUEST,
+    PRODUCT_CREATE_SUCCESS,
+    PRODUCT_CREATE_FAIL,
+    PRODUCT_CREATE_RESET,
 } from '../constants/productConstants' //added this so that any changes will be made in the constants in this
 
 //changes state
@@ -57,6 +62,23 @@ export const productDeleteReducers = (state = {} ,actions) => {
         case PRODUCT_DELETE_FAIL:
             return {loading:false,error:actions.payload}
 
+        default:
+            return state
+    }
+}
+
+export const productCreateReducers = (state = {} ,actions) => {
+    switch(actions.type){
+        case PRODUCT_CREATE_REQUEST:
+            return {loading:true}
+        
+        case PRODUCT_CREATE_SUCCESS:
+            return {loading:false,success:true,product: actions.payload}
+
+        case PRODUCT_CREATE_FAIL:
+            return {loading:false,error:actions.payload}
+        case PRODUCT_CREATE_RESET:
+            return {}
         default:
             return state
     }

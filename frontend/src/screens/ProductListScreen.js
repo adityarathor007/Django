@@ -5,7 +5,8 @@ import {Table,Button,Row,Col, Container} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import {deleteProduct, listProducts} from '../actions/productActions'            
+import {deleteProduct, listProducts,createProduct} from '../actions/productActions'          
+import {PRODUCT_CREATE_RESET} from '../constants/productConstants'  
 
 export default function ProductListScreen() {
     const dispatch=useDispatch()
@@ -14,21 +15,31 @@ export default function ProductListScreen() {
     const productList=useSelector(state=>state.productList)
     const {loading,error,products}=productList
 
-    const productDelte=useSelector(state=>state.productDelete)
-    const {loading:loadingDelete,error:errorDelete,success:successDelete}=productDelte
+    const productDelete=useSelector(state=>state.productDelete)
+    const {loading:loadingDelete,error:errorDelete,success:successDelete}=productDelete
 
     const userLogin=useSelector(state=>state.userLogin)  //to check if the user is admin or not so we need details of it
     const {userInfo}=userLogin
+
+    const productCreate=useSelector(state=>state.productCreate)
+    const {loading:loadingCreate,error:errorCreate,success:successCreate,product}=productCreate
+
    
     useEffect(()=>{
-        if(userInfo && userInfo.isAdmin){ //to make sure that if non admin user access this link then redirected to login page if nor logged in and if logged in then reception 
-            dispatch(listProducts())
+        dispatch({type:PRODUCT_CREATE_RESET})
 
+        if(!userInfo.isAdmin){ //to make sure that if non admin user access this link then redirected to login page if nor logged in and if logged in then reception 
+            navigate('/login')  
+        }
+
+        if(successCreate){
+            navigate(`/admin/product/${product._id}/edit`)
         }
         else{
-            navigate('/login')
+            dispatch(listProducts())
         }
-    },[dispatch,navigate,userInfo,successDelete])
+       
+    },[dispatch,navigate,userInfo,successDelete,successCreate,product])
 
     const deleteHandler=(id) => {
         // console.log('DELETE:',id)
@@ -37,7 +48,8 @@ export default function ProductListScreen() {
 
         }}
 
-    const createProductHandler=(product) => {
+    const createProductHandler=() => {
+        dispatch(createProduct())
         //create Product
     }
 
@@ -55,7 +67,10 @@ export default function ProductListScreen() {
     </Col>
 </Row>
 {loadingDelete && <Loader/>}
-{errorDelete && <Message variant='danger'>{error}</Message>}
+{errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+{loadingCreate && <Loader/>}
+{errorCreate && <Message variant='danger'>{errorCreate}</Message>}
 
 
       {loading 
@@ -85,7 +100,7 @@ export default function ProductListScreen() {
                         <td>{product.brand}</td>
                         
                         <td>
-                            <LinkContainer to={`/admin/products/${product._id}/edit`}>
+                            <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                 <Button varaint='light' className='btn-sm'>
                                     <i className='fas fa-edit'></i>
                                    
