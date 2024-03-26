@@ -70,7 +70,6 @@ export default function OrderListScreen() {
                         </td>
 
 
-                        {/* to take from list page to that user profile */}
                         <td>
                             <LinkContainer to={`/order/${order._id}`}>
                                 <Button varaint='light' className='btn-sm'>
