@@ -103,3 +103,11 @@ def updateOrderToPaid(request,pk):
     order.paidAt= datetime.now()
     order.save()
     return Response('Order is paid')
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getOrders(request):
+    orders=Order.objects.all()
+    serailizer=OrderSerailizer(orders,many=True)
+    return Response(serailizer.data)
