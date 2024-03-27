@@ -4,6 +4,7 @@ import {Navbar,Nav,Container, NavDropdown} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
 import {logout} from '../actions/userActions'
+import SearchBox from './SearchBox'
 
 
 function Header() {
@@ -20,16 +21,19 @@ function Header() {
 
   return (
     
-    <header>
+  <header >
       <Navbar expand="lg" variant="dark" collapseOnSelect >
       <Container>
         <LinkContainer to='/'>
         <Navbar.Brand >SwiftCart</Navbar.Brand>
         </LinkContainer>
+         
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <SearchBox />
+
           <Nav
-            className='ml-auto'
+            className='mr-auto'
           >
             <LinkContainer to='/cart'>
             <Nav.Link><i className="fas fa-shopping-cart">Cart</i></Nav.Link>
@@ -70,11 +74,13 @@ function Header() {
 
 
 
-           
+
            
           </Nav>
+          
          
         </Navbar.Collapse>
+       
         </Container>
     </Navbar>
     </header>
