@@ -1,10 +1,12 @@
 import {legacy_createStore as createStore,combineReducers,applyMiddleware} from 'redux'
 import {thunk} from 'redux-thunk'
 import {productListReducers
-        ,productDetailsReducers
+        ,productDetailsReducer
         ,productDeleteReducers
         ,productCreateReducers
-        ,productUpdateReducers} from './reducers/productReducers'
+        ,productUpdateReducers
+        ,productCreateReviewReducers
+    } from './reducers/productReducers'
 import {composeWithDevTools} from '@redux-devtools/extension'
 import {CartReducer} from './reducers/cartReducers'
 import {UserLoginReducer,
@@ -24,10 +26,11 @@ import {orderConstantsReducer,
 
 const reducer=combineReducers({
     productList:productListReducers,  //this reducer will update the products state
-    productDetails:productDetailsReducers,
+    productDetails:productDetailsReducer,
     productDelete:productDeleteReducers,
     productCreate:productCreateReducers,
     productUpdate:productUpdateReducers,
+    productReviewCreate:productCreateReviewReducers,
     
     cart:CartReducer,
 

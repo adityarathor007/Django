@@ -21,6 +21,13 @@ import {
     PRODUCT_UPDATE_FAIL,
     PRODUCT_UPDATE_RESET,  
 
+    PRODUCT_CREATE_REVIEW_REQUEST,
+    PRODUCT_CREATE_REVIEW_SUCCESS,
+    PRODUCT_CREATE_REVIEW_FAIL,
+    PRODUCT_CREATE_REVIEW_RESET,  
+
+    
+
 } from '../constants/productConstants' //added this so that any changes will be made in the constants in this
 
 //changes state
@@ -40,22 +47,22 @@ export const productListReducers = (state = {products:[]},actions) => {
     }
 }
 
-export const productDetailsReducers = (state = {product:{reviews:[]}},actions) => {
-    switch(actions.type){
+export const productDetailsReducer = (state = { product: { reviews: [] } }, action) => {
+    switch (action.type) {
         case PRODUCT_DETAILS_REQUEST:
-            return {loading:true,...state}
-        
+            return { loading: true, ...state }
+
         case PRODUCT_DETAILS_SUCCESS:
-            return {loading:false,product:actions.payload}
+           
+            return {loading:false,product:action.payload}
 
         case PRODUCT_DETAILS_FAIL:
-            return {loading:false,error:actions.payload}
+            return { loading: false, error: action.payload }
 
         default:
             return state
     }
 }
-
 
 export const productDeleteReducers = (state = {} ,actions) => {
     switch(actions.type){
@@ -103,6 +110,24 @@ export const productUpdateReducers = (state = {product:{}} ,actions) => {
             return {loading:false,error:actions.payload}
         case PRODUCT_UPDATE_RESET:
             return {product: {}}
+        default:
+            return state
+    }
+}
+
+
+export const productCreateReviewReducers = (state = {} ,actions) => {
+    switch(actions.type){
+        case PRODUCT_CREATE_REVIEW_REQUEST:
+            return {loading:true}
+        
+        case PRODUCT_CREATE_REVIEW_SUCCESS:
+            return {loading:false,success:true}
+
+        case PRODUCT_CREATE_REVIEW_FAIL:
+            return {loading:false,error:actions.payload}
+        case PRODUCT_CREATE_REVIEW_RESET:
+            return {}
         default:
             return state
     }

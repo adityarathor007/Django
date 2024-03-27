@@ -35,8 +35,11 @@ function ProductEditScreen() {
     const {error,loading,product} = productDetails
 
 
-    const userDetails = useSelector(state=>state.userDetails)
-    const {error:erroruser,loading:loadinguser,user} = userDetails
+    // const userDetails = useSelector(state=>state.userDetails)
+    // const {error:erroruser,loading:loadinguser,user} = userDetails
+
+    const userDetails=useSelector(state=>state.loginUser)
+    const {userInfo}=userDetails
 
     const productUpdate = useSelector(state=>state.productUpdate)
     const {error:errorUpdate,loading:loadingUpdate,success:successUpdate} = productUpdate
@@ -80,7 +83,7 @@ function ProductEditScreen() {
             category,
             description,
 
-        },user))
+        },userInfo))
     }
 
     const uploadFileHandler = async (e) => {

@@ -31,7 +31,7 @@ function UserEditScreen() {
     useEffect(() => {
         if(successUpdate){
             dispatch({type:USER_UPDATE_RESET})
-            // dispatch({type:USER_DETAILS_RESET})
+            dispatch({type:USER_DETAILS_RESET})
             navigate('/admin/userlist')
         }
         else{
