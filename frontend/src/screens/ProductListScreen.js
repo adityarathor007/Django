@@ -1,10 +1,11 @@
 import React,{useState,useEffect, useReducer} from 'react'
-import {Link, redirect,useNavigate} from 'react-router-dom'
+import {Link, redirect,useNavigate,useLocation} from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Table,Button,Row,Col, Container} from 'react-bootstrap'
 import {useDispatch,useSelector} from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Paginate from '../components/Paginate'
 import {deleteProduct, listProducts,createProduct} from '../actions/productActions'          
 import {PRODUCT_CREATE_RESET} from '../constants/productConstants'  
 
@@ -13,7 +14,7 @@ export default function ProductListScreen() {
     const navigate=useNavigate()
     
     const productList=useSelector(state=>state.productList)
-    const {loading,error,products}=productList
+    const {loading,error,products,page,pages}=productList
 
     const productDelete=useSelector(state=>state.productDelete)
     const {loading:loadingDelete,error:errorDelete,success:successDelete}=productDelete
@@ -24,7 +25,11 @@ export default function ProductListScreen() {
     const productCreate=useSelector(state=>state.productCreate)
     const {loading:loadingCreate,error:errorCreate,success:successCreate,product}=productCreate
 
-   
+    const location = useLocation()
+    let keywords = location.search
+    console.log(keywords)
+    // const keyword = searchParams.get('keyword');
+
     useEffect(()=>{
         dispatch({type:PRODUCT_CREATE_RESET})
 
@@ -36,10 +41,10 @@ export default function ProductListScreen() {
             navigate(`/admin/product/${product._id}/edit`)
         }
         else{
-            dispatch(listProducts())
+            dispatch(listProducts(keywords))
         }
        
-    },[dispatch,navigate,userInfo,successDelete,successCreate,product])
+    },[dispatch,navigate,userInfo,successDelete,keywords,successCreate,product])
 
     const deleteHandler=(id) => {
         // console.log('DELETE:',id)
@@ -78,6 +83,7 @@ export default function ProductListScreen() {
       : error
       ?<Message variant='danger'>{error}</Message>
     :  (
+        <div>
         <Table striped bordered hover responsive >
             <thead>
                 <tr>
@@ -119,6 +125,12 @@ export default function ProductListScreen() {
 
             
         </Table>
+        <Paginate pages={pages} page={page} isAdmin={true} /> 
+        </div>
+
+
+
+
     ) }
     </div>
   )

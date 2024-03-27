@@ -13,6 +13,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from django.shortcuts import get_object_or_404
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework import status
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 
 @api_view(['GET'])
 def getProducts(request):
@@ -23,8 +24,23 @@ def getProducts(request):
     user=request.user
     # products=Product.objects.all()
     products=Product.objects.filter(name__icontains=query)
+    page=request.query_params.get('page')
+    paginator=Paginator(products,2)
+
+    try:
+        products=paginator.page(page)
+    except PageNotAnInteger:
+        products=paginator.page(1)
+    except EmptyPage:
+        products=paginator.page(paginator.num_pages)  #when we go to further page and pages not there so return the last pagep
+
+    if page == None:
+        page=1
+    
+    page=int(page)
+
     serializer=ProductSerializer(products,many=True)
-    return Response(serializer.data)
+    return Response({'products':serializer.data, 'page':page,'pages':paginator.num_pages})  #we are now not only returning the products now but also the current page and the total page_no
 
 
 

@@ -4,6 +4,7 @@ import {Row,Col,Image,ListGroup,Button,Card,Form} from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+
 // import products from '../products' //using data from the backend
 // import axios from 'axios'
 import {useDispatch,useSelector} from 'react-redux'
