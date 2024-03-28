@@ -5,7 +5,8 @@ import {productListReducers
         ,productDeleteReducers
         ,productCreateReducers
         ,productUpdateReducers
-        ,productCreateReviewReducers
+        ,productCreateReviewReducers,
+        productTopRatedReducers,
     } from './reducers/productReducers'
 import {composeWithDevTools} from '@redux-devtools/extension'
 import {CartReducer} from './reducers/cartReducers'
@@ -31,6 +32,7 @@ const reducer=combineReducers({
     productCreate:productCreateReducers,
     productUpdate:productUpdateReducers,
     productReviewCreate:productCreateReviewReducers,
+    productTopRated:productTopRatedReducers,
     
     cart:CartReducer,
 

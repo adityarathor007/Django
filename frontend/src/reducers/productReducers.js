@@ -26,6 +26,10 @@ import {
     PRODUCT_CREATE_REVIEW_FAIL,
     PRODUCT_CREATE_REVIEW_RESET,  
 
+    PRODUCT_TOP_REQUEST,
+    PRODUCT_TOP_SUCCESS,
+    PRODUCT_TOP_FAIL,
+
     
 
 } from '../constants/productConstants' //added this so that any changes will be made in the constants in this
@@ -132,6 +136,22 @@ export const productCreateReviewReducers = (state = {} ,actions) => {
             return {loading:false,error:actions.payload}
         case PRODUCT_CREATE_REVIEW_RESET:
             return {}
+        default:
+            return state
+    }
+}
+
+export const productTopRatedReducers = (state = {products:[]} ,actions) => {
+    switch(actions.type){
+        case PRODUCT_TOP_REQUEST:
+            return {loading:true,products:[]}
+        
+        case PRODUCT_TOP_SUCCESS:
+            return {loading:false,success:true,products:actions.payload}
+
+        case PRODUCT_TOP_FAIL:
+            return {loading:false,error:actions.payload}
+      
         default:
             return state
     }

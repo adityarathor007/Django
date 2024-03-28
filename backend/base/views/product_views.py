@@ -43,6 +43,15 @@ def getProducts(request):
     return Response({'products':serializer.data, 'page':page,'pages':paginator.num_pages})  #we are now not only returning the products now but also the current page and the total page_no
 
 
+@api_view(['GET'])
+def getTopProducts(request):
+    products=Product.objects.filter(rating__gte=4).order_by('-rating')[0:5] #to rate from descending 
+    serializer=ProductSerializer(products,many=True)
+    return Response(serializer.data)
+
+    
+
+
 
 @api_view(['GET'])
 def getProduct(request,pk):
